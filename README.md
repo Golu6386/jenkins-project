@@ -29,20 +29,21 @@ The pipeline is designed for continuous synchronization without manual intervent
 pipeline {
     agent any
 
+    environment {
+        TOMCAT_ROOT = "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT"
+    }                                                                                               
     stages {
-        stage('Fetch Source Code') {
+        stage('Pull Code') {
             steps {
-                echo 'Fetching latest code from GitHub...'
-                git branch: 'main', url: '[https://github.com/your-username/your-repo.git](https://github.com/your-username/your-repo.git)'
+                git url: 'https://github.com/Golu6386/jenkins-project.git', branch:'main'
             }
         }
-
-        stage('Deploy to Tomcat') {
+        
+        stage('Deoploy to tomcat') {
             steps {
-                echo 'Deploying files to local Tomcat server...'
-                // Ensure this path matches your local Tomcat installation
-                sh 'cp -r * /opt/tomcat/webapps/ROOT/'
+                bat "xcopy * \"${TOMCAT_ROOT}\" /E/Y"
             }
         }
     }
+    
 }
